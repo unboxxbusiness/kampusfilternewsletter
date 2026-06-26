@@ -246,12 +246,14 @@ interface HomePageClientProps {
   siteName: string;
   heroTitle: string;
   heroDescription: string;
+  categories?: string[];
 }
 
 export default function HomePageClient({
   siteName,
   heroTitle,
-  heroDescription
+  heroDescription,
+  categories
 }: HomePageClientProps) {
   const { registerPushNotifications } = useFCM();
   const [subscribed, setSubscribed] = useState(false);
@@ -326,7 +328,7 @@ export default function HomePageClient({
 
           {/* Subscription Input Box */}
           {!subscribed ? (
-            <NewsletterForm onSubscribeSuccess={handleSubscribeSuccess} />
+            <NewsletterForm onSubscribeSuccess={handleSubscribeSuccess} categories={categories} />
           ) : (
             <div className="p-8 border border-[#fca311]/30 bg-[#fca311]/5 dark:bg-[#14213d] rounded-lg text-center space-y-4 max-w-md shadow-sm">
               <h2 className="text-2xl font-bold text-[#14213d] dark:text-[#ffffff]">You're Joined! 🎉</h2>

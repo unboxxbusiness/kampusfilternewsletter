@@ -25,6 +25,20 @@ async function getSiteSettings() {
   }
 }
 
+async function getActiveCategories(): Promise<string[]> {
+  try {
+    const categories = await client.fetch(
+      `*[_type == "category" && count(*[_type == "article" && category._ref == ^._id]) > 0] | order(title asc) {
+        title
+      }`
+    );
+    return categories.map((cat: any) => cat.title);
+  } catch (error) {
+    console.error("Error fetching active categories from Sanity:", error);
+    return [];
+  }
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
   const title = settings?.defaultSeoTitle || "Kampus Filter - Student Intelligence Platform";
@@ -49,7 +63,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const settings = await getSiteSettings();
+  const [settings, categories] = await Promise.all([
+    getSiteSettings(),
+    getActiveCategories(),
+  ]);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://kampusfilter.com";
 
   const jsonLdWebsite = {
@@ -95,6 +112,7 @@ export default async function HomePage() {
           settings?.homepageHeroDescription ||
           "Discover opportunities, career intelligence, scholarships, internships, and education insights that help ambitious students make smarter decisions."
         }
+        categories={categories}
       />
     </>
   );

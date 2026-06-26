@@ -8,9 +8,10 @@ const INTEREST_OPTIONS = [
 
 interface NewsletterFormProps {
   onSubscribeSuccess: (email: string, enableNotifications: boolean) => void;
+  categories?: string[];
 }
 
-export default function NewsletterForm({ onSubscribeSuccess }: NewsletterFormProps) {
+export default function NewsletterForm({ onSubscribeSuccess, categories }: NewsletterFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
@@ -47,6 +48,8 @@ export default function NewsletterForm({ onSubscribeSuccess }: NewsletterFormPro
       setLoading(false);
     }
   };
+
+  const interestOptions = categories && categories.length > 0 ? categories : INTEREST_OPTIONS;
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6">
@@ -91,7 +94,7 @@ export default function NewsletterForm({ onSubscribeSuccess }: NewsletterFormPro
       <div className="space-y-2">
         <label className="text-xs font-semibold uppercase tracking-wider text-[#14213d]/60 dark:text-[#e5e5e5]/60">Course Interests</label>
         <div className="flex flex-wrap gap-2">
-          {INTEREST_OPTIONS.map(interest => {
+          {interestOptions.map(interest => {
             const active = selectedInterests.includes(interest);
             return (
               <button
