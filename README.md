@@ -33,8 +33,3 @@ Career trends, future skills, emerging jobs, salaries, and industry insights.
 ## Mission
 
 **Help students cut through the noise and make better decisions about their future.**
-
-## Tagline
-
-**The 5-Minute Briefing for Ambitious Students.**
-# kampusfilternewsletter
