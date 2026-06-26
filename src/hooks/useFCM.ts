@@ -16,8 +16,18 @@ export function useFCM() {
         return false;
       }
 
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      let fcmReg = registrations.find(
+        (r) => r.active && r.active.scriptURL.includes("firebase-messaging-sw")
+      );
+
+      if (!fcmReg) {
+        fcmReg = await navigator.serviceWorker.register("/api/firebase-messaging-sw", { scope: "/" });
+      }
+
       const token = await getToken(messaging, {
         vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY || "BIZzSfEFVf_kPIbNPA_bcKwyDX65SEuUS7ZdY5UmvUROLPpYr9OjmsyI0R1-4d-_hyjVti0SUypNbej_W11IkXs",
+        serviceWorkerRegistration: fcmReg,
       });
 
       if (token) {
