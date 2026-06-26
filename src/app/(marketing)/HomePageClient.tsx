@@ -7,14 +7,106 @@ import Link from "next/link";
 import Image from "next/image";
 import { useFCM } from "@/hooks/useFCM";
 import NavbarLogo from "@/components/layout/NavbarLogo";
+import { User } from "lucide-react";
 
 
-const USER_AVATARS = [
-  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80",
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80",
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80",
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&h=100&q=80",
-  "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=100&h=100&q=80"
+const STUDENT_AVATARS = [
+  // 1. Male with curly hair and glasses
+  (
+    <svg key="av1" viewBox="0 0 36 36" fill="none" className="w-8 h-8 rounded-full border-2 border-[#ffffff] dark:border-[#000000] shadow-sm relative z-50">
+      <defs>
+        <linearGradient id="avatarGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#fca311" />
+          <stop offset="100%" stopColor="#e6930f" />
+        </linearGradient>
+      </defs>
+      <circle cx="18" cy="18" r="18" fill="url(#avatarGrad1)" />
+      <path d="M7 32c0-5 5-8 11-8s11 3 11 8" fill="#14213d" />
+      <circle cx="18" cy="17" r="7" fill="#ffd1ac" />
+      <path d="M12 14c-1-2 0-5 3-6s5 0 6 2 2-3 4-2 3 3 2 5" fill="#4a3728" />
+      <rect x="13" y="15" width="4" height="3" rx="1.5" stroke="#000" strokeWidth="0.8" />
+      <rect x="19" y="15" width="4" height="3" rx="1.5" stroke="#000" strokeWidth="0.8" />
+      <line x1="17" y1="16.5" x2="19" y2="16.5" stroke="#000" strokeWidth="0.8" />
+      <path d="M16 21a2 2 0 004 0" stroke="#000" strokeWidth="0.8" fill="none" />
+    </svg>
+  ),
+  // 2. Female with long brown hair
+  (
+    <svg key="av2" viewBox="0 0 36 36" fill="none" className="w-8 h-8 rounded-full border-2 border-[#ffffff] dark:border-[#000000] shadow-sm relative z-40">
+      <defs>
+        <linearGradient id="avatarGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#4f46e5" />
+          <stop offset="100%" stopColor="#818cf8" />
+        </linearGradient>
+      </defs>
+      <circle cx="18" cy="18" r="18" fill="url(#avatarGrad2)" />
+      <path d="M10 16c-2 4-1 12-1 12h18s1-8-1-12" fill="#653818" />
+      <path d="M8 32c0-4 4-7 10-7s10 3 10 7" fill="#e11d48" />
+      <circle cx="18" cy="17" r="7" fill="#fcd5b5" />
+      <path d="M11 15c1-4 4-6 7-6s6 2 7 6c0-2-3-4-7-4s-7 2-7 4z" fill="#653818" />
+      <path d="M22 13c3 1 3 6 3 6s-1-4-3-6z" fill="#653818" />
+      <circle cx="15.5" cy="16.5" r="0.8" fill="#000" />
+      <circle cx="20.5" cy="16.5" r="0.8" fill="#000" />
+      <path d="M16 20.5c.8.5 1.6.5 2.4 0" stroke="#000" strokeWidth="0.8" strokeLinecap="round" fill="none" />
+    </svg>
+  ),
+  // 3. Male with cap
+  (
+    <svg key="av3" viewBox="0 0 36 36" fill="none" className="w-8 h-8 rounded-full border-2 border-[#ffffff] dark:border-[#000000] shadow-sm relative z-30">
+      <defs>
+        <linearGradient id="avatarGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#06b6d4" />
+          <stop offset="100%" stopColor="#0891b2" />
+        </linearGradient>
+      </defs>
+      <circle cx="18" cy="18" r="18" fill="url(#avatarGrad3)" />
+      <path d="M7 32c0-5 5-8 11-8s11 3 11 8" fill="#4b5563" />
+      <circle cx="18" cy="17" r="7" fill="#e0a98c" />
+      <circle cx="15.5" cy="17" r="0.8" fill="#000" />
+      <circle cx="20.5" cy="17" r="0.8" fill="#000" />
+      <path d="M16 20.5a2 2 0 004 0" stroke="#000" strokeWidth="0.8" fill="none" />
+      <path d="M11 14a7 7 0 0114 0H11z" fill="#d97706" />
+      <path d="M17 10h8v2h-8z" fill="#fbbf24" />
+    </svg>
+  ),
+  // 4. Female with glasses and bun
+  (
+    <svg key="av4" viewBox="0 0 36 36" fill="none" className="w-8 h-8 rounded-full border-2 border-[#ffffff] dark:border-[#000000] shadow-sm relative z-20">
+      <defs>
+        <linearGradient id="avatarGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#ec4899" />
+          <stop offset="100%" stopColor="#be185d" />
+        </linearGradient>
+      </defs>
+      <circle cx="18" cy="18" r="18" fill="url(#avatarGrad4)" />
+      <circle cx="18" cy="7" r="4.5" fill="#1f2937" />
+      <path d="M8 32c0-4 4-7 10-7s10 3 10 7" fill="#059669" />
+      <circle cx="18" cy="17" r="7" fill="#a16207" />
+      <path d="M11 15c0-4 3-6 7-6s7 2 7 6v2h-14v-2z" fill="#1f2937" />
+      <circle cx="15.5" cy="16.5" r="2.2" stroke="#fff" strokeWidth="0.8" />
+      <circle cx="20.5" cy="16.5" r="2.2" stroke="#fff" strokeWidth="0.8" />
+      <line x1="17.7" y1="16.5" x2="18.3" y2="16.5" stroke="#fff" strokeWidth="0.8" />
+      <path d="M16 21c.5.5 1.5.5 2 0" stroke="#000" strokeWidth="0.8" strokeLinecap="round" fill="none" />
+    </svg>
+  ),
+  // 5. Male with blonde hair
+  (
+    <svg key="av5" viewBox="0 0 36 36" fill="none" className="w-8 h-8 rounded-full border-2 border-[#ffffff] dark:border-[#000000] shadow-sm relative z-10">
+      <defs>
+        <linearGradient id="avatarGrad5" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#10b981" />
+          <stop offset="100%" stopColor="#059669" />
+        </linearGradient>
+      </defs>
+      <circle cx="18" cy="18" r="18" fill="url(#avatarGrad5)" />
+      <path d="M7 32c0-5 5-8 11-8s11 3 11 8" fill="#d97706" />
+      <circle cx="18" cy="17" r="7" fill="#ffd1ac" />
+      <path d="M11 14c1-3 4-5 7-5s6 2 7 5c0 0-2-2-4-2s-4 1-5 2-3 0-5 0z" fill="#f59e0b" />
+      <circle cx="15.5" cy="16.5" r="0.8" fill="#000" />
+      <circle cx="20.5" cy="16.5" r="0.8" fill="#000" />
+      <path d="M15.5 20.5s1 1 2.5 0" stroke="#000" strokeWidth="0.8" strokeLinecap="round" fill="none" />
+    </svg>
+  )
 ];
 
 // Vector SVG logo definitions
@@ -255,17 +347,8 @@ export default function HomePageClient({
 
           {/* Social proof avatars count */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-6 border-t border-[#e5e5e5] dark:border-[#14213d] max-w-md">
-            <div className="flex -space-x-3">
-              {USER_AVATARS.map((url, idx) => (
-                <div key={idx} className="relative w-8 h-8 rounded-full border-2 border-[#ffffff] dark:border-[#000000] overflow-hidden bg-[#e5e5e5] dark:bg-[#14213d]">
-                  <Image
-                    src={url}
-                    alt="Subscriber headshot"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              ))}
+            <div className="flex -space-x-2.5">
+              {STUDENT_AVATARS}
             </div>
             <p className="text-xs text-[#14213d]/60 dark:text-[#e5e5e5]/60 leading-relaxed">
               Join <span className="text-[#14213d] dark:text-[#ffffff] font-semibold">12,482+ ambitious students</span> from top global institutions.
