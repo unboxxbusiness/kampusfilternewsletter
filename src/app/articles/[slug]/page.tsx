@@ -173,74 +173,77 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <BreadcrumbSchema items={breadcrumbs} />
 
       <ReadingProgressBar />
-      <TableOfContents />
 
-      <article className="max-w-[720px] mx-auto space-y-8 font-sans">
-        <div className="space-y-4">
-          {article.category && (
-            <span className="text-xs font-semibold text-[#fca311] uppercase tracking-wider">
-              {article.category.title}
-            </span>
-          )}
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-[#14213d] dark:text-[#ffffff]">
-            {article.title}
-          </h1>
-          <p className="text-[#14213d]/70 dark:text-[#e5e5e5]/70 text-lg leading-relaxed">{article.excerpt}</p>
- 
-          <div className="flex items-center gap-4 py-4 border-y border-[#e5e5e5] dark:border-[#14213d] text-sm text-[#14213d]/60 dark:text-[#e5e5e5]/60">
-            {article.author?.image && (
-              <div className="relative h-10 w-10 overflow-hidden rounded-full">
-                <Image
-                  src={urlFor(article.author.image).url()}
-                  alt={article.author.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
+      <div className="max-w-[1100px] mx-auto lg:flex lg:gap-12 lg:items-start lg:justify-center">
+        <TableOfContents />
+
+        <article className="max-w-[720px] w-full space-y-8 font-sans">
+          <div className="space-y-4">
+            {article.category && (
+              <span className="text-xs font-semibold text-[#fca311] uppercase tracking-wider">
+                {article.category.title}
+              </span>
             )}
-            <div>
-              <p className="font-semibold text-[#14213d] dark:text-[#ffffff]">{article.author?.name || "Author"}</p>
-              <p className="text-[#14213d]/50 dark:text-[#e5e5e5]/50">
-                {new Date(article.publishedAt).toLocaleDateString()} &bull; {article.readingTime} min read
-              </p>
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-[#14213d] dark:text-[#ffffff]">
+              {article.title}
+            </h1>
+            <p className="text-[#14213d]/70 dark:text-[#e5e5e5]/70 text-lg leading-relaxed">{article.excerpt}</p>
+   
+            <div className="flex items-center gap-4 py-4 border-y border-[#e5e5e5] dark:border-[#14213d] text-sm text-[#14213d]/60 dark:text-[#e5e5e5]/60">
+              {article.author?.image && (
+                <div className="relative h-10 w-10 overflow-hidden rounded-full">
+                  <Image
+                    src={urlFor(article.author.image).url()}
+                    alt={article.author.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
+              <div>
+                <p className="font-semibold text-[#14213d] dark:text-[#ffffff]">{article.author?.name || "Author"}</p>
+                <p className="text-[#14213d]/50 dark:text-[#e5e5e5]/50">
+                  {new Date(article.publishedAt).toLocaleDateString()} &bull; {article.readingTime} min read
+                </p>
+              </div>
             </div>
           </div>
-        </div>
- 
-        {article.featuredImage && (
-          <div className="relative aspect-video w-full overflow-hidden rounded-lg">
-            <Image
-              src={urlFor(article.featuredImage).url()}
-              alt={article.title}
-              fill
-              priority
-              className="object-cover"
-            />
+   
+          {article.featuredImage && (
+            <div className="relative aspect-video w-full overflow-hidden rounded-lg">
+              <Image
+                src={urlFor(article.featuredImage).url()}
+                alt={article.title}
+                fill
+                priority
+                className="object-cover"
+              />
+            </div>
+          )}
+   
+          <div className="prose prose-neutral dark:prose-invert max-w-none text-[#14213d] dark:text-[#e5e5e5]">
+            <PortableTextRenderer value={article.content} />
           </div>
-        )}
- 
-        <div className="prose prose-neutral dark:prose-invert max-w-none text-[#14213d] dark:text-[#e5e5e5]">
-          <PortableTextRenderer value={article.content} />
-        </div>
- 
-        <PostShareBar slug={resolvedParams.slug} title={article.title} />
- 
-        <RelatedArticles
-          articles={related}
-          categoryTitle={article.category?.title || ""}
-          isBackfilled={isBackfilled}
-        />
- 
-        <div className="mt-20 p-8 border border-[#e5e5e5] dark:border-[#14213d] rounded-2xl text-center space-y-4 bg-[#e5e5e5]/10 dark:bg-[#14213d]/20 transition-all duration-300">
-          <h3 className="text-xl font-bold text-[#14213d] dark:text-[#ffffff]">Join Kampus Filter</h3>
-          <p className="text-[#14213d]/60 dark:text-[#e5e5e5]/60 text-sm">
-            Discover opportunities, scholarships, and career updates sent straight to your browser.
-          </p>
-          <Link href="/" className="inline-block bg-[#fca311] text-[#000000] px-6 py-2.5 hover:bg-[#e6930f] transition rounded-lg text-sm font-bold uppercase tracking-wider shadow-sm">
-            Join Free
-          </Link>
-        </div>
-      </article>
+   
+          <PostShareBar slug={resolvedParams.slug} title={article.title} />
+   
+          <RelatedArticles
+            articles={related}
+            categoryTitle={article.category?.title || ""}
+            isBackfilled={isBackfilled}
+          />
+   
+          <div className="mt-20 p-8 border border-[#e5e5e5] dark:border-[#14213d] rounded-2xl text-center space-y-4 bg-[#e5e5e5]/10 dark:bg-[#14213d]/20 transition-all duration-300">
+            <h3 className="text-xl font-bold text-[#14213d] dark:text-[#ffffff]">Join Kampus Filter</h3>
+            <p className="text-[#14213d]/60 dark:text-[#e5e5e5]/60 text-sm">
+              Discover opportunities, scholarships, and career updates sent straight to your browser.
+            </p>
+            <Link href="/" className="inline-block bg-[#fca311] text-[#000000] px-6 py-2.5 hover:bg-[#e6930f] transition rounded-lg text-sm font-bold uppercase tracking-wider shadow-sm">
+              Join Free
+            </Link>
+          </div>
+        </article>
+      </div>
     </main>
   );
 }

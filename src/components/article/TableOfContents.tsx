@@ -36,7 +36,7 @@ export default function TableOfContents() {
   if (headings.length === 0) return null;
 
   return (
-    <aside className="hidden lg:block fixed left-12 top-32 w-64 text-sm space-y-4">
+    <aside className="hidden lg:block sticky top-32 w-64 text-sm space-y-4 self-start">
       <p className="font-bold uppercase tracking-wider text-xs text-[#14213d]/50 dark:text-[#e5e5e5]/50">On this page</p>
       <ul className="space-y-2 border-l border-[#e5e5e5] dark:border-[#14213d] pl-4">
         {headings.map((item) => (
