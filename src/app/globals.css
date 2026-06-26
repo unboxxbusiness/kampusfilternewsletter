@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand palette */
+  --brand-black:  #000000;
+  --brand-navy:   #14213d;
+  --brand-amber:  #fca311;
+  --brand-gray:   #e5e5e5;
+  --brand-white:  #ffffff;
+
+  /* Light mode surface tokens */
+  --background: #ffffff;
+  --foreground: #14213d;
+  --surface:    #e5e5e5;
+  --border:     #e5e5e5;
+}
+
+.dark {
+  /* Dark mode surface tokens */
+  --background: #000000;
+  --foreground: #e5e5e5;
+  --surface:    #14213d;
+  --border:     #14213d;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Global selection color */
+::selection {
+  background-color: #fca311;
+  color: #000000;
+}
+
+/* Scrollbar styling (Webkit) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #fca311;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #e6930f;
+}
