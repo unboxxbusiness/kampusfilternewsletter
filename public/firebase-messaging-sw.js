@@ -1,14 +1,9 @@
 importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js');
 
-firebase.initializeApp({
-  apiKey: "AIzaSyBzRngBbi5_Vz6-agGqGA_vRhU6-KNVdH4",
-  authDomain: "kampusfilterapp.firebaseapp.com",
-  projectId: "kampusfilterapp",
-  storageBucket: "kampusfilterapp.firebasestorage.app",
-  messagingSenderId: "939023631977",
-  appId: "1:939023631977:web:79e79f1fdc1d6d89a504f8"
-});
+// Firebase config is injected at build time via next.config.ts
+// See: /src/app/api/firebase-messaging-sw/route.ts for the dynamic SW route
+firebase.initializeApp(self.__FIREBASE_CONFIG__);
 
 const messaging = firebase.messaging();
 
