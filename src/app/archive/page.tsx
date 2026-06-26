@@ -43,7 +43,7 @@ async function getArchiveData(page: number, category: string, q: string) {
 
   const articles = await client.fetch(articlesQuery, { category, q, startIndex, endIndex });
   const totalCount = await client.fetch(countQuery, { category, q });
-  const categories = await client.fetch(`*[_type == "category"]`);
+  const categories = await client.fetch(`*[_type == "category"] { _id, title, "slug": slug.current }`);
 
   const totalPages = Math.ceil(totalCount / limit);
 

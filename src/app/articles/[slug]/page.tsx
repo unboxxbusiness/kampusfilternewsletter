@@ -2,7 +2,8 @@ import React from "react";
 import { Metadata } from "next";
 import { client } from "@/lib/sanity/client";
 import PortableTextRenderer from "@/components/article/PortableTextRenderer";
-import TableOfContents from "@/components/article/TableOfContents";
+import dynamic from "next/dynamic";
+const TableOfContents = dynamic(() => import("@/components/article/TableOfContents"), { ssr: false });
 import ReadingProgressBar from "@/components/article/ReadingProgressBar";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,6 +13,20 @@ import PostShareBar from "@/components/article/PostShareBar";
 import RelatedArticles from "@/components/article/RelatedArticles";
 
 export const revalidate = 60; // ISR cache validation interval
+
+export async function generateStaticParams() {
+  try {
+    const articles = await client.fetch(
+      `*[_type == "article"] { "slug": slug.current }`
+    );
+    return articles.map((art: any) => ({
+      slug: art.slug || "",
+    }));
+  } catch (error) {
+    console.error("Error in generateStaticParams for articles:", error);
+    return [];
+  }
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
@@ -35,7 +50,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     const metaTitle = article.seoTitle || article.title;
     const metaDescription = article.seoDescription || article.excerpt || "Read the latest updates on Kampus Filter.";
-    const ogImage = article.featuredImage ? urlFor(article.featuredImage).url() : undefined;
+    const ogImage = article.featuredImage ? urlFor(article.featuredImage).width(1200).height(630).auto("format").url() : undefined;
 
     return {
       title: metaTitle,
@@ -136,7 +151,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     "description": article.excerpt || "Read the latest update on Kampus Filter.",
     "datePublished": article.publishedAt,
     "dateModified": article.publishedAt,
-    "image": article.featuredImage ? [urlFor(article.featuredImage).url()] : [],
+    "image": article.featuredImage ? [urlFor(article.featuredImage).width(1200).height(630).auto("format").url()] : [],
     "author": {
       "@type": "Person",
       "name": article.author?.name || "Kampus Filter Editorial",
@@ -193,7 +208,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               {article.author?.image && (
                 <div className="relative h-10 w-10 overflow-hidden rounded-full">
                   <Image
-                    src={urlFor(article.author.image).url()}
+                    src={urlFor(article.author.image).width(80).height(80).auto("format").url()}
                     alt={article.author.name}
                     fill
                     className="object-cover"
@@ -212,7 +227,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {article.featuredImage && (
             <div className="relative aspect-video w-full overflow-hidden rounded-lg">
               <Image
-                src={urlFor(article.featuredImage).url()}
+                src={urlFor(article.featuredImage).width(1200).auto("format").url()}
                 alt={article.title}
                 fill
                 priority

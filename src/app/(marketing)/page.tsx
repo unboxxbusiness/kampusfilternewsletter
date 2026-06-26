@@ -5,7 +5,7 @@ import { urlFor } from "@/lib/sanity/image";
 import HomePageClient from "./HomePageClient";
 
 // Force dynamic fetch to ensure latest site settings are loaded
-export const revalidate = 0;
+export const revalidate = 60;
 
 async function getSiteSettings() {
   try {
@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
   const title = settings?.defaultSeoTitle || "Kampus Filter - Student Intelligence Platform";
   const description = settings?.defaultSeoDescription || "Discover opportunities, scholarships, career frameworks, and future-skills intelligence for ambitious students.";
-  const ogImage = settings?.socialShareImage ? urlFor(settings.socialShareImage).url() : undefined;
+  const ogImage = settings?.socialShareImage ? urlFor(settings.socialShareImage).width(1200).height(630).auto("format").url() : undefined;
 
   return {
     title,

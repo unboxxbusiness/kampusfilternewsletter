@@ -8,6 +8,20 @@ import Pagination from "@/components/navigation/Pagination";
 
 export const revalidate = 60;
 
+export async function generateStaticParams() {
+  try {
+    const categories = await client.fetch(
+      `*[_type == "category"] { "slug": slug.current }`
+    );
+    return categories.map((cat: any) => ({
+      category: cat.slug || "",
+    }));
+  } catch (error) {
+    console.error("Error in generateStaticParams for categories:", error);
+    return [];
+  }
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const categoryName = resolvedParams.category.replace(/-/g, " ");

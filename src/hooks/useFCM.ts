@@ -17,7 +17,7 @@ export function useFCM() {
       }
 
       const token = await getToken(messaging, {
-        vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
+        vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY || "BIZzSfEFVf_kPIbNPA_bcKwyDX65SEuUS7ZdY5UmvUROLPpYr9OjmsyI0R1-4d-_hyjVti0SUypNbej_W11IkXs",
       });
 
       if (token) {

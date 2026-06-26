@@ -45,7 +45,7 @@ const components = {
     image: ({ value }: any) => (
       <div className="relative my-8 aspect-video w-full overflow-hidden rounded-lg bg-[#e5e5e5]/30 dark:bg-[#14213d]/30">
         <Image
-          src={urlFor(value).url()}
+          src={urlFor(value).width(800).auto("format").url()}
           alt={value.alt || "Article graphic"}
           fill
           className="object-cover"

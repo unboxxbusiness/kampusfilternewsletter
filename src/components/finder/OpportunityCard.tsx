@@ -38,7 +38,7 @@ export default function OpportunityCard({ opportunity }: OpportunityCardProps) {
       {opportunity.featuredImage && (
         <div className="relative aspect-video w-full overflow-hidden bg-[#e5e5e5]/20 dark:bg-[#14213d]/20">
           <Image
-            src={urlFor(opportunity.featuredImage).url()}
+            src={urlFor(opportunity.featuredImage).width(400).height(225).auto("format").url()}
             alt={opportunity.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500"
