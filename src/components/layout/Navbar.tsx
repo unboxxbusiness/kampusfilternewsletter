@@ -1,8 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { Download } from "lucide-react";
 import ThemeToggle from "@/components/common/ThemeToggle";
 import NavbarLogo from "@/components/layout/NavbarLogo";
+import { useInstall } from "@/providers/InstallProvider";
 
 export default function Navbar() {
+  const { isInstalled, triggerInstall } = useInstall();
+
   return (
     <header className="sticky top-0 bg-[#ffffff]/90 dark:bg-[#000000]/90 backdrop-blur-md z-40 border-b border-[#e5e5e5] dark:border-[#14213d] py-3 px-6 md:px-12 flex justify-between items-center transition-all duration-300">
       <NavbarLogo />
@@ -18,6 +24,14 @@ export default function Navbar() {
         <Link href="/about" className="text-[#14213d]/70 dark:text-[#e5e5e5]/70 hover:text-[#14213d] dark:hover:text-[#ffffff] transition font-medium">
           About
         </Link>
+        {!isInstalled && (
+          <button
+            onClick={triggerInstall}
+            className="text-[#14213d]/70 dark:text-[#e5e5e5]/70 hover:text-[#14213d] dark:hover:text-[#ffffff] transition font-medium text-left"
+          >
+            Install App
+          </button>
+        )}
         <ThemeToggle />
         <Link
           href="/"
@@ -29,6 +43,15 @@ export default function Navbar() {
 
       {/* Mobile Top Actions */}
       <div className="flex md:hidden items-center gap-3">
+        {!isInstalled && (
+          <button
+            onClick={triggerInstall}
+            className="text-[#14213d]/70 dark:text-[#e5e5e5]/70 hover:text-[#14213d] dark:hover:text-[#ffffff] p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors animate-pulse"
+            title="Install App"
+          >
+            <Download className="w-4 h-4 text-[#fca311]" />
+          </button>
+        )}
         <ThemeToggle />
         <Link
           href="/"
@@ -40,5 +63,3 @@ export default function Navbar() {
     </header>
   );
 }
-
-

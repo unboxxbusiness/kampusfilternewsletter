@@ -1,3 +1,121 @@
+# Rich Article Content Rendering Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Modify the Sanity article content schema and frontend PortableText renderer to support rich content blocks (custom headings with anchors, bulleted/numbered lists, styled tables, and YouTube video embeds).
+
+**Architecture:** Extend the `content` field block-array schema inside Sanity, and add corresponding React component renderers inside `PortableTextRenderer.tsx` using Tailwind classes.
+
+**Tech Stack:** React, Next.js (App Router), Tailwind CSS.
+
+## Global Constraints
+- Avoid introducing any external npm dependencies (YAGNI).
+- Support responsive aspect-ratio wrappers for YouTube video iframes.
+- Ensure proper semantic markup for lists, quotes, tables, and headings.
+
+---
+
+### Task 1: Update Sanity Article Content Schema
+Extend the Sanity schema array for the article `content` block field to support inline images, YouTube embed metadata, and custom rows/cells table structures.
+
+**Files:**
+- Modify: `src/lib/sanity/schemas/article.ts`
+
+**Interfaces:**
+- Consumes: Sanity schema structure
+- Produces: Updated Sanity schema definition for the `article` document type
+
+- [ ] **Step 1: Edit schemas/article.ts to add custom content type definitions**
+Modify lines 133-138 of `src/lib/sanity/schemas/article.ts`:
+```typescript
+    defineField({
+      name: "content",
+      title: "Content",
+      type: "array",
+      of: [
+        { type: "block" },
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            {
+              name: "alt",
+              type: "string",
+              title: "Alternative Text",
+              validation: (Rule) => Rule.required(),
+            }
+          ]
+        },
+        {
+          name: "youtube",
+          type: "object",
+          title: "YouTube Embed",
+          fields: [
+            {
+              name: "url",
+              type: "url",
+              title: "YouTube Video URL",
+              validation: (Rule) => Rule.required(),
+            }
+          ]
+        },
+        {
+          name: "table",
+          type: "object",
+          title: "Table",
+          fields: [
+            {
+              name: "rows",
+              type: "array",
+              title: "Table Rows",
+              of: [
+                {
+                  type: "object",
+                  name: "tableRow",
+                  title: "Table Row",
+                  fields: [
+                    {
+                      name: "cells",
+                      type: "array",
+                      title: "Row Cells",
+                      of: [{ type: "string" }]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      validation: (Rule) => Rule.required(),
+    }),
+```
+
+- [ ] **Step 2: Run build lint checks to ensure schema syntax is correct**
+Run: `npm run lint`
+Expected: PASS
+
+- [ ] **Step 3: Commit schema updates**
+```bash
+git add src/lib/sanity/schemas/article.ts
+git commit -m "feat: add image, youtube, and table block definitions to article content schema"
+```
+
+---
+
+### Task 2: Implement Component Renderers inside PortableTextRenderer.tsx
+Configure the custom list, heading, table, and YouTube block renderers in the React components dictionary.
+
+**Files:**
+- Modify: `src/components/article/PortableTextRenderer.tsx`
+
+**Interfaces:**
+- Consumes: Sanity rich-text content payload
+- Produces: Visual components with correct styling inside `PortableTextRenderer`
+
+- [ ] **Step 1: Write video ID parser, lists, table, and YouTube embed components**
+Replace the contents of `src/components/article/PortableTextRenderer.tsx` with:
+```tsx
 import React from "react";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "@/lib/sanity/image";
@@ -142,3 +260,14 @@ const components = {
 export default function PortableTextRenderer({ value }: { value: any }) {
   return <PortableText value={value} components={components} />;
 }
+```
+
+- [ ] **Step 2: Run build compile checks**
+Run: `npm run lint` and `npm run build`
+Expected: Both PASS successfully
+
+- [ ] **Step 3: Commit code updates**
+```bash
+git add src/components/article/PortableTextRenderer.tsx
+git commit -m "feat: add table, youtube video embed, blockquote, and list formatting renderers"
+```

@@ -21,7 +21,7 @@ interface SearchParams {
 }
 
 async function getArchiveData(page: number, category: string, q: string) {
-  const limit = 10;
+  const limit = 15;
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + limit;
 
@@ -34,6 +34,8 @@ async function getArchiveData(page: number, category: string, q: string) {
   const articlesQuery = `${filter} | order(publishedAt desc)[$startIndex...$endIndex] {
     title,
     slug,
+    excerpt,
+    featuredImage,
     "category": category->title,
     publishedAt,
     readingTime

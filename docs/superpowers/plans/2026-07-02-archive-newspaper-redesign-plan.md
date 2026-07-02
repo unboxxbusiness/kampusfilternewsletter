@@ -1,3 +1,28 @@
+# Archive Page Classic Newspaper Redesign Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Redesign the Archive page to match a print-newspaper aesthetic with sharp rectlineal layouts (`rounded-none`, `shadow-none`), vertical border dividers between columns, and heavy serif typography for headlines (`font-serif font-black`).
+
+**Architecture:** Rewrite the `ArchivePageClient.tsx` file to structure the grid layout using thin borders and columns instead of cards, and apply double border decorations to the category filter index.
+
+**Tech Stack:** React, Next.js (App Router), Tailwind CSS.
+
+## Global Constraints
+- Apply `rounded-none` and `shadow-none` globally to the page layout components.
+- Do not affect category routes or individual post article pages.
+
+---
+
+### Task 1: Rewrite ArchivePageClient.tsx to emulated Print News columns
+Replace the client archive component file to build the classic editorial column layout.
+
+**Files:**
+- Modify: `src/app/archive/ArchivePageClient.tsx`
+
+- [ ] **Step 1: Rewrite the ArchivePageClient.tsx component**
+Replace the contents of `src/app/archive/ArchivePageClient.tsx` with:
+```tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -239,3 +264,14 @@ export default function ArchivePageClient({
     </main>
   );
 }
+```
+
+- [ ] **Step 2: Verify lint and build**
+Run: `npm run lint` and `npm run build`
+Expected: PASS
+
+- [ ] **Step 3: Commit code updates**
+```bash
+git add src/app/archive/ArchivePageClient.tsx
+git commit -m "style: implement classic editorial newspaper column layout on Archive page"
+```

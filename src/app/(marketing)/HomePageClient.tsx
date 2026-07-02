@@ -7,7 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useFCM } from "@/hooks/useFCM";
 import NavbarLogo from "@/components/layout/NavbarLogo";
-import { User } from "lucide-react";
+import { User, Download } from "lucide-react";
+import { useInstall } from "@/providers/InstallProvider";
 
 
 const STUDENT_AVATARS = [
@@ -255,6 +256,7 @@ export default function HomePageClient({
   heroDescription,
   categories
 }: HomePageClientProps) {
+  const { isInstalled, triggerInstall } = useInstall();
   const { registerPushNotifications } = useFCM();
   const [subscribed, setSubscribed] = useState(false);
   const [email, setEmail] = useState("");
@@ -288,6 +290,14 @@ export default function HomePageClient({
         <nav className="hidden md:flex items-center gap-6 text-sm font-semibold">
           <Link href="/archive" className="text-[#14213d]/70 dark:text-[#e5e5e5]/70 hover:text-[#14213d] dark:hover:text-[#ffffff] transition font-medium">Archive</Link>
           <Link href="/about" className="text-[#14213d]/70 dark:text-[#e5e5e5]/70 hover:text-[#14213d] dark:hover:text-[#ffffff] transition font-medium">About</Link>
+          {!isInstalled && (
+            <button
+              onClick={triggerInstall}
+              className="text-[#14213d]/70 dark:text-[#e5e5e5]/70 hover:text-[#14213d] dark:hover:text-[#ffffff] transition font-medium text-left font-semibold"
+            >
+              Install App
+            </button>
+          )}
           <ThemeToggle />
           <Link href="/" className="bg-[#fca311] text-[#000000] px-4 py-1.5 rounded-lg text-xs font-bold tracking-wide uppercase hover:bg-[#e6930f] transition-all duration-200 shadow-sm">
             Join Free
@@ -296,6 +306,15 @@ export default function HomePageClient({
 
         {/* Mobile Top Actions */}
         <div className="flex md:hidden items-center gap-3">
+          {!isInstalled && (
+            <button
+              onClick={triggerInstall}
+              className="text-[#14213d]/70 dark:text-[#e5e5e5]/70 hover:text-[#14213d] dark:hover:text-[#ffffff] p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors animate-pulse"
+              title="Install App"
+            >
+              <Download className="w-4 h-4 text-[#fca311]" />
+            </button>
+          )}
           <ThemeToggle />
           <Link href="/" className="bg-[#fca311] text-[#000000] px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-wide uppercase hover:bg-[#e6930f] transition-all duration-200">
             Join Free
@@ -388,9 +407,14 @@ export default function HomePageClient({
 
       {/* Minimal Footer */}
       <footer className="w-full border-t border-[#e5e5e5] dark:border-[#14213d] py-8 px-6 md:px-16 text-center text-xs text-[#14213d]/50 dark:text-[#e5e5e5]/50 z-20">
-        <div className="flex justify-center gap-6 mb-4 font-medium">
+        <div className="flex justify-center gap-6 mb-4 font-medium flex-wrap">
           <Link href="/archive" className="hover:text-[#fca311] transition-colors duration-200">Archive</Link>
           <Link href="/about" className="hover:text-[#fca311] transition-colors duration-200">About</Link>
+          {!isInstalled && (
+            <button onClick={triggerInstall} className="hover:text-[#fca311] transition-colors duration-200 hover:underline">
+              Install App
+            </button>
+          )}
           <Link href="/terms" className="hover:text-[#fca311] transition-colors duration-200">Terms</Link>
           <Link href="/privacy" className="hover:text-[#fca311] transition-colors duration-200">Privacy</Link>
           <Link href="/contact" className="hover:text-[#fca311] transition-colors duration-200">Contact</Link>

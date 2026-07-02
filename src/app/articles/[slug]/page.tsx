@@ -10,6 +10,7 @@ import { urlFor } from "@/lib/sanity/image";
 import BreadcrumbSchema from "@/components/navigation/BreadcrumbSchema";
 import PostShareBar from "@/components/article/PostShareBar";
 import RelatedArticles from "@/components/article/RelatedArticles";
+import AuthorCard from "@/components/article/AuthorCard";
 
 export const revalidate = 60; // ISR cache validation interval
 
@@ -238,8 +239,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="prose prose-neutral dark:prose-invert max-w-none text-[#14213d] dark:text-[#e5e5e5]">
             <PortableTextRenderer value={article.content} />
           </div>
-   
+
           <PostShareBar slug={resolvedParams.slug} title={article.title} />
+
+          {article.author && (
+            <AuthorCard author={article.author} />
+          )}
    
           <RelatedArticles
             articles={related}

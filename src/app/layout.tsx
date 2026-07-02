@@ -3,6 +3,8 @@ import { Inter, Geist, Geist_Mono } from "next/font/google";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import ServiceWorkerRegister from "@/components/layout/ServiceWorkerRegister";
+import { InstallProvider } from "@/providers/InstallProvider";
+import InstallGuideModal from "@/components/common/InstallGuideModal";
 import "./globals.css";
 
 const inter = Inter({
@@ -94,8 +96,11 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased min-h-screen flex flex-col justify-between">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ServiceWorkerRegister />
-          <ConditionalLayout>{children}</ConditionalLayout>
+          <InstallProvider>
+            <ServiceWorkerRegister />
+            <ConditionalLayout>{children}</ConditionalLayout>
+            <InstallGuideModal />
+          </InstallProvider>
         </ThemeProvider>
       </body>
     </html>

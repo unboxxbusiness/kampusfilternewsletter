@@ -133,7 +133,61 @@ export default defineType({
       name: "content",
       title: "Content",
       type: "array",
-      of: [{ type: "block" }],
+      of: [
+        { type: "block" },
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            {
+              name: "alt",
+              type: "string",
+              title: "Alternative Text",
+              validation: (Rule) => Rule.required(),
+            }
+          ]
+        },
+        {
+          name: "youtube",
+          type: "object",
+          title: "YouTube Embed",
+          fields: [
+            {
+              name: "url",
+              type: "url",
+              title: "YouTube Video URL",
+              validation: (Rule) => Rule.required(),
+            }
+          ]
+        },
+        {
+          name: "table",
+          type: "object",
+          title: "Table",
+          fields: [
+            {
+              name: "rows",
+              type: "array",
+              title: "Table Rows",
+              of: [
+                {
+                  type: "object",
+                  name: "tableRow",
+                  title: "Table Row",
+                  fields: [
+                    {
+                      name: "cells",
+                      type: "array",
+                      title: "Row Cells",
+                      of: [{ type: "string" }]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
       validation: (Rule) => Rule.required(),
     }),
   ],
